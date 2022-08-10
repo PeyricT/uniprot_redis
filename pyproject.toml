@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "uniprot_redis"
+version = "0.1.0"
+description = ""
+authors = ["Cecile Hilpert <cecile.hilpert@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+docopt = "^0.6.2"
+fastapi = "^0.79.0"
+uvicorn = "^0.18.2"
+pyproteinsext = "^3.0.3"
+pyrediscore = { path = "../pyrediscore", develop=true }
+
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
