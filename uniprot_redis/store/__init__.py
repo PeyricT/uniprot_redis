@@ -1,6 +1,6 @@
 from telnetlib import SE
 from pyrediscore.redantic import RedisStore, KeyStoreError, StoreKeyNotFound
-from ..api.schemas import GODatum, UniprotDatum, SecondaryId
+from .schemas import GODatum, UniprotDatum, SecondaryId
 from pyproteinsext import uniprot as pExt
 
 
@@ -18,6 +18,7 @@ class UniprotStore():
         collection = pExt.EntrySet(collectionXML=xml)
         for prot in collection:
             print(prot.id, prot.AC)
+            print(prot)
             gos = []
             for go in prot.GO:
                 go_obj = GODatum(id = go.id, evidence = go.evidence, term = go.term)
@@ -52,6 +53,11 @@ class UniprotStore():
     @property
     def proteins(self):
         for k in self.base_store.list_key(model=SecondaryId, skip_prefix=True):
+            yield k
+
+    @property
+    def go_terms(self):
+        for k in self.base_store.list_key(model=GODatum, skip_prefix=True):
             yield k
 
     def get_protein(self, uniprot_id):

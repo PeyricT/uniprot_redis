@@ -5,7 +5,7 @@ import uvicorn
 
 from .store import UniprotStore
 
-from .api.schemas import UniprotAC
+from .store.schemas import UniprotAC
 
 app = FastAPI()
 origins = ["*"]
@@ -27,9 +27,15 @@ async def handshake(request: Request):
 async def list_protein():
     return store.proteins
 
+@app.get('/uniprot/length')
+async def len_db():
+    return {"proteins": len(list(store.proteins)), "go_terms" : len(list(store.go_terms))}
+
 @app.get('/uniprot/{uniprot_id}')
 async def get_protein(uniprot_id: UniprotAC):
     return store.get_protein(uniprot_id)
+
+
 
 def start(host, port):
     """Launched with `poetry run start` at root level"""

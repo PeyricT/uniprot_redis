@@ -16,7 +16,6 @@ Options:
 from docopt import docopt
 from .server import start as uvicorn_start
 from .server import load_data, wipe
-from .io.parse_xml import parse_xml_uniprot
 
 
 args = docopt(__doc__)
