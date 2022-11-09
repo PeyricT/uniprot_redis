@@ -10,7 +10,8 @@ docopt = "^0.6.2"
 fastapi = "^0.79.0"
 uvicorn = "^0.18.2"
 pyproteinsext = "^3.0.3"
-pyrediscore = { path = "../pyrediscore", develop=true }
+pyrediscore = "^0.3.0"
+#pyrediscore = { path = "../pyrediscore", develop=true }
 
 
 [tool.poetry.dev-dependencies]

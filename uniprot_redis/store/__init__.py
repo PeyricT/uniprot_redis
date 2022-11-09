@@ -1,6 +1,5 @@
-from telnetlib import SE
 from pyrediscore.redantic import RedisStore, KeyStoreError, StoreKeyNotFound
-from ..api.schemas import GODatum, UniprotDatum, SecondaryId
+from .schemas import GODatum, UniprotDatum, SecondaryId
 from pyproteinsext import uniprot as pExt
 
 
@@ -14,8 +13,14 @@ class UniprotStore():
     def wipe_all(self):
         self.base_store.wipe()
 
-    def load_uniprot_xml(self, xml):
-        collection = pExt.EntrySet(collectionXML=xml)
+    def load_uniprot_xml(self, file=None, stream=None):
+        if not file and not stream:
+            raise ValueError("please provide XML source with the file or stream arguments")
+        if file:   
+            collection = pExt.EntrySet(collectionXML=file)
+        else:
+            collection = pExt.EntrySet(streamXML=stream)
+            
         for prot in collection:
             print(prot.id, prot.AC)
             gos = []
