@@ -1,7 +1,8 @@
 from pyrediscore.redantic import RedisStore, KeyStoreError, StoreKeyNotFound
 from .schemas import GODatum, UniprotDatum, SecondaryId
 from pyproteinsext import uniprot as pExt
-
+from pydantic import ValidationError
+from sys import stderr
 
 class UniprotStore():
     def __init__(self, host:str="127.0.0.1", port:int=6379):
@@ -32,14 +33,18 @@ class UniprotStore():
                     print(go.id, "added")
                 except KeyStoreError:
                     print("Already in db", go.id)
-
-            obj = UniprotDatum(id=prot.id, 
-                full_name=prot.fullName, 
-                name=prot.name, 
-                gene_name=prot.geneName,
-                taxid=prot.taxid,
-                sequence=prot.sequence,
-                go = gos)
+            try :
+                obj = UniprotDatum(id=prot.id, 
+                    full_name=prot.fullName, 
+                    name=prot.name, 
+                    gene_name=prot.geneName,
+                    taxid=prot.taxid,
+                    sequence=prot.sequence,
+                    go = gos)
+            except ValidationError as e:
+                print(f"Validation failed for {prot.id}: {str(e)}", file=stderr)
+                continue
+            
             for sec_id in prot.AC:
                 correspondance_obj = SecondaryId(id=sec_id, parent_id=prot.id)
                 try:

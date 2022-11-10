@@ -5,7 +5,7 @@ import uvicorn
 
 from .store import UniprotStore
 
-from .api.schemas import UniprotAC
+from .store.schemas import UniprotAC
 
 app = FastAPI()
 origins = ["*"]
