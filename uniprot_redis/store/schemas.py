@@ -1,5 +1,6 @@
 import string
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from typing import Optional
 from uuid import uuid4
 import re
 from typing import List
@@ -44,7 +45,7 @@ class UniprotDatum(BaseModel):
     id: UniprotAC
     full_name: str
     name: str
-    gene_name: str
+    gene_name: Optional[str]
     taxid: int
     sequence : str
     go : List[GODatum]
