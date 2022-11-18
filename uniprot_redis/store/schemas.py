@@ -54,4 +54,6 @@ class SecondaryId(BaseModel):
     id: UniprotAC
     parent_id: UniprotAC
 
-
+class UniprotCollection(BaseModel):
+    comments:str
+    content:List[UniprotAC]

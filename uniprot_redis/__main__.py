@@ -3,13 +3,14 @@
 Usage:
   uniprot_redis service redis start [--rh=<redis_host> --rp=<redis_port>] [--port=<portNumber>]
   uniprot_redis service redis wipe [--rh=<redis_host> --rp=<redis_port>]
-  uniprot_redis service redis add <xmlProteomeFile> [--rh=<redis_host> --rp=<redis_port>]
+  uniprot_redis service redis add <xmlProteomeFile> [--rh=<redis_host> --rp=<redis_port> --as=<collection_name>]
     
 Options:
   -h --help     Show this screen.
   --port=<portNumber>  port for public API [default: 2333]
   --rp=<redis_port>  redis DB TCP port [default: 6379]
   --rh=<redis_host>  redis DB http adress [default: localhost]
+  --as=<collection_name>  assign a name to the inserted collection [default: basename of the xml file]
   --silent  verbosity
   
 """
@@ -24,7 +25,7 @@ if args["start"]:
     uvicorn_start(args['--rh'], int(args['--port']))
 
 if args['add']:
-    load_data(args['<xmlProteomeFile>'])
+    load_data(args['<xmlProteomeFile>'], args['--as'])
 
 if args['wipe']:
     wipe()

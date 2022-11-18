@@ -41,7 +41,7 @@ def start(host, port):
     """Launched with `poetry run start` at root level"""
     uvicorn.run("uniprot_redis.server:app", host=host, port=port, reload=True)
 
-def load_data(xml):
+def load_data(xml, coll_name):
     store.load_uniprot_xml(xml)
 
 def wipe():
