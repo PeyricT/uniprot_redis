@@ -35,14 +35,14 @@ async def len_db():
 async def get_protein(uniprot_id: UniprotAC):
     return store.get_protein(uniprot_id)
 
-
-
 def start(host, port):
     """Launched with `poetry run start` at root level"""
     uvicorn.run("uniprot_redis.server:app", host=host, port=port, reload=True)
 
-def load_data(xml, coll_name):
-    store.load_uniprot_xml(xml)
+def load_data(xml, coll_name:str):
+    coll = store.load_uniprot_xml(xml)
+    print(f"Storing inserted elements under collection \"{coll_name}\"")
+    store.save_collection(coll_name, coll)
 
 def wipe():
     store.wipe_all()
