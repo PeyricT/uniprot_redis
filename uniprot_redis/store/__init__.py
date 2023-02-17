@@ -62,20 +62,20 @@ class UniprotStore():
 
             try:
                 self.base_store.add(obj)
-                print(prot.id, "added")
+                #print(prot.id, "added")
             except KeyStoreError:
                 #print("Already in db", prot.id)
                 pass
             inserted_ok.append(prot.id)
-            print(f"{prot.id} now in db")
-
+            #print(f"{prot.id} now in db")
+        print(f"{len(inserted_ok)} entries added to store")
         return inserted_ok
 
     def save_collection(self, comments:str, uniprot_ids:List[UniprotAC]):
         coll = UniprotCollection(comments=comments, content=uniprot_ids)
         try:
             self.base_store.add(coll)
-            print(coll.comments, "added")
+            #print(coll.comments, "added")
         except KeyStoreError:
             print("Already in db", coll.comments, file=stderr)
     def delete_collection(self, comments:str):
