@@ -139,6 +139,13 @@ class UniprotStore():
         for uniprot_id in uniprot_ids:
             resp[uniprot_id] = self.get_protein(uniprot_id)
         return resp
+
+    def get_collections_from_prots(self, uniprot_ids):
+        coll_for_prots = {}
+        for coll_name, coll_content in self.list_collection():
+            coll_for_prots[coll_name] = len(set(coll_content).intersection(set(uniprot_ids)))
+            
+        return coll_for_prots
         
     
 

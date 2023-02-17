@@ -45,6 +45,11 @@ async def get_proteins(uniprot_request : UniprotRequest):
     print("get proteins", uniprot_request.uniprotIDs)
     return store.get_proteins(uniprot_request.uniprotIDs)
 
+@app.post('/collection_scan')
+async def get_collection(uniprot_request : UniprotRequest):
+    print(f"get collection for {len(uniprot_request.uniprotIDs)} proteins")
+    return store.get_collections_from_prots(uniprot_request.uniprotIDs)
+
 def start(host, port):
     """Launched with `poetry run start` at root level"""
     uvicorn.run("uniprot_redis.server:app", host=host, port=port, reload=True)
