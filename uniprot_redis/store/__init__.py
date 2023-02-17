@@ -131,4 +131,15 @@ class UniprotStore():
         except KeyError as e:
             print("Validation error at key {uniprot_id}: {e}", file=stderr)
 
+    def get_proteins_with_mget(self, uniprot_ids):
+        pass
+
+    def get_proteins(self, uniprot_ids): 
+        resp = {}
+        for uniprot_id in uniprot_ids:
+            resp[uniprot_id] = self.get_protein(uniprot_id)
+        return resp
+        
+    
+
         

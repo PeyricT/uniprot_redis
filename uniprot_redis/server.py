@@ -2,10 +2,15 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 import uvicorn
+from pydantic import BaseModel
+from typing import List
 
 from .store import UniprotStore
 
 from .store.schemas import UniprotAC
+
+class UniprotRequest(BaseModel) : 
+    uniprotIDs : List[UniprotAC]
 
 app = FastAPI()
 origins = ["*"]
@@ -34,6 +39,11 @@ async def len_db():
 @app.get('/uniprot/{uniprot_id}')
 async def get_protein(uniprot_id: UniprotAC):
     return store.get_protein(uniprot_id)
+
+@app.post('/uniprots')
+async def get_proteins(uniprot_request : UniprotRequest):
+    print("get proteins", uniprot_request.uniprotIDs)
+    return store.get_proteins(uniprot_request.uniprotIDs)
 
 def start(host, port):
     """Launched with `poetry run start` at root level"""
