@@ -1,9 +1,9 @@
 """Uniprot ressources microservice
 
 Usage:
-  uniprot_redis service redis start [--rh=<redis_host> --rp=<redis_port>] [--port=<portNumber>]
-  uniprot_redis service redis wipe [--rh=<redis_host> --rp=<redis_port>]
-  uniprot_redis service redis add <xmlProteomeFile> [--rh=<redis_host> --rp=<redis_port> --as=<collection_name>]
+  uniprot_redis service start [--rh=<redis_host> --rp=<redis_port>] [--port=<portNumber>]
+  uniprot_redis service wipe [--rh=<redis_host> --rp=<redis_port>]
+  uniprot_redis service add <xmlProteomeFile> [--rh=<redis_host> --rp=<redis_port> --as=<collection_name>]
     
 Options:
   -h --help     Show this screen.
@@ -17,7 +17,7 @@ Options:
 from docopt import docopt
 from .server import start as uvicorn_start
 from .server import load_data, wipe
-
+from os.path import basename
 
 args = docopt(__doc__)
 
@@ -25,7 +25,13 @@ if args["start"]:
     uvicorn_start(args['--rh'], int(args['--port']))
 
 if args['add']:
-    load_data(args['<xmlProteomeFile>'], args['--as'])
+    coll_id = None
+    if args['--as'] == "basename of the xml file":
+        coll_id = basename(args['<xmlProteomeFile>'])
+        print(f"Warning: no collection name provided, using {coll_id}")
+    else:
+        coll_id = args['--as']
+    load_data(args['<xmlProteomeFile>'], coll_id)
 
 if args['wipe']:
     wipe()

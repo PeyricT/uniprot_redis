@@ -51,7 +51,7 @@ def start(host, port):
 
 def load_data(xml, coll_name:str):
     coll = store.load_uniprot_xml(xml)
-    print(f"Storing inserted elements under collection \"{coll_name}\"")
+    print(f"Indexing these entries under collection \"{coll_name}\"")
     store.save_collection(coll_name, coll)
 
 def wipe():
