@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import Optional
 from uuid import uuid4
 import re
-from typing import List
+from typing import List, Dict
 
 uniprot_acc_regex = re.compile(
     r'[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}'
@@ -49,6 +49,7 @@ class UniprotDatum(BaseModel):
     taxid: int
     sequence : str
     go : List[GODatum]
+    db_reference : Dict[str, List[str]]
 
 class SecondaryId(BaseModel):
     id: UniprotAC

@@ -28,7 +28,7 @@ class UniprotStore():
             
         for prot in collection:
             #print(prot.id, prot.AC)
-            #print(prot)
+            print(prot.db_references)
             gos = []
             for go in prot.GO:
                 go_obj = GODatum(id = go.id, evidence = go.evidence, term = go.term)
@@ -46,7 +46,9 @@ class UniprotStore():
                     gene_name=prot.geneName,
                     taxid=prot.taxid,
                     sequence=prot.sequence,
-                    go = gos)
+                    go = gos,
+                    db_reference=prot.db_references,
+                    )
             except ValidationError as e:
                 print(f"Validation failed for {prot.id}: {str(e)}", file=stderr)
                 continue
